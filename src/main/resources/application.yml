@@ -1,0 +1,11 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: power-calculator
+
+# Optional: Better JSON formatting
+spring.jackson:
+  serialization:
+    indent-output: true
