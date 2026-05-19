@@ -18,6 +18,7 @@ pipeline {
             steps {
                 echo 'Checkout code ...'
                 git 'https://github.com/PavelK037/power-calculator.git'
+                echo 'Finish Checkout code .'
             }
         }
         stage("build") {
