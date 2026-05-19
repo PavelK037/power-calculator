@@ -1,11 +1,31 @@
 pipeline {
 
     agent any
+    
+    environment {
+        //DOCKER_IMAGE = "your-registry/power-calc-service:${env.BUILD_ID}"
+        REGISTRY_URL = "https://index.docker.io"
+        REGISTRY_CREDS = "glob-docker-hub-creds"
+        IMAGE_NAME = "pavel37/power-calc-service"
+        DOCKER_IMAGE = "${IMAGE_NAME}:${env.BUILD_ID}"
+
+        //K8S_NAMESPACE = "production"
+        K8S_NAMESPACE = "powercalcrun"
+    }
 
     stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checkout code ...'
+                git 'https://github.com/PavelK037/power-calculator.git'
+            }
+        }
         stage("build") {
             steps {
                 echo 'building the application ...'
+                // sh 'mvn clean test package'
+                sh "docker build -t ${IMAGE_NAME}:latest ."
+                echo 'the application built.'
             }
         }
         stage("test") {
