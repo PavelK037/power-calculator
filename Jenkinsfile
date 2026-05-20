@@ -18,6 +18,11 @@ pipeline {
     }
     stages {
         stage('Checkout') {
+            when {
+                expression {
+                    BRANCH_NAME == 'main'
+                }
+            }
             steps {
                 echo 'Checkout code ...'
                 git branch: "${BRANCH_NAME}", 
@@ -27,6 +32,11 @@ pipeline {
             }
         }
         stage("build") {
+            when {
+                expression {
+                    BRANCH_NAME == 'main'
+                }
+            }
             steps {
                 echo 'building the application ...'
                 // sh 'mvn clean test package'
@@ -34,21 +44,20 @@ pipeline {
                 echo 'the application built.'
             }
         }
-        stage("test") {
-            when {
-                expression {
-                    BRANCH_NAME == 'dev'
-                }
-            }
-            steps {
-                echo 'testing the application ...'
-            }
-        }
-        
-        stage("deploy") {
-            steps {
-                echo 'deploying the application ...'
-            }
-        }
+        // stage("test") {
+        //     when {
+        //         expression {
+        //             BRANCH_NAME == 'dev'
+        //         }
+        //     }
+        //     steps {
+        //         echo 'testing the application ...'
+        //     }
+        // }
+        // stage("deploy") {
+        //     steps {
+        //         echo 'deploying the application ...'
+        //     }
+        // }
     }
 }
