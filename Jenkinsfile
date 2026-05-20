@@ -27,6 +27,7 @@ pipeline {
                 echo 'Checkout code ...'
                 git branch: "${BRANCH_NAME}", 
                     url: 'https://github.com/PavelK037/power-calculator.git'
+            
                 //git 'https://github.com/PavelK037/power-calculator.git'
                 echo 'Finish Checkout code .'
             }
