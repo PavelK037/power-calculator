@@ -17,11 +17,20 @@ pipeline {
         string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch to build')
     }
     stages {
+        stage('Initialize') {
+            steps {
+                script {
+                    def dockerHome = tool 'JenkDocker'
+                    env.PATH = "${dockerHome}/bin:${env.PATH}"
+                }
+            }
+        }
         stage('Checkout') {
             when {
-                expression {
-                    BRANCH_NAME == 'main'
-                }
+                branch 'main'
+                // expression {
+                //     BRANCH_NAME == 'main'
+                // }
             }
             steps {
                 echo 'Checkout code ...'
@@ -29,14 +38,15 @@ pipeline {
                     url: 'https://github.com/PavelK037/power-calculator.git'
             
                 //git 'https://github.com/PavelK037/power-calculator.git'
-                echo 'Finish Checkout code .'
+                echo 'Finish Checking out code .'
             }
         }
         stage("build") {
             when {
-                expression {
-                    BRANCH_NAME == 'main'
-                }
+                branch 'main'
+                // expression {
+                //     BRANCH_NAME == 'main'
+                // }
             }
             steps {
                 echo 'building the application ...'
