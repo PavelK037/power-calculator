@@ -25,34 +25,29 @@ pipeline {
                 }
             }
         }
-        stage('Checkout') {
+        stage('Run for main branch') {
             when {
-                branch 'main'
-                // expression {
-                //     BRANCH_NAME == 'main'
-                // }
+                expression {
+                    BRANCH_NAME == 'main'
+                }
             }
-            steps {
-                echo 'Checkout code ...'
-                git branch: "${BRANCH_NAME}", 
-                    url: 'https://github.com/PavelK037/power-calculator.git'
-            
-                //git 'https://github.com/PavelK037/power-calculator.git'
-                echo 'Finish Checking out code .'
-            }
-        }
-        stage("build") {
-            when {
-                branch 'main'
-                // expression {
-                //     BRANCH_NAME == 'main'
-                // }
-            }
-            steps {
-                echo 'building the application ...'
-                // sh 'mvn clean test package'
-                sh "docker build -t ${IMAGE_NAME}:latest ."
-                echo 'the application built.'
+            stages {
+                stage('Checkout') {
+                    steps {
+                        echo "Checkout code for branch:${BRANCH_NAME} ..."
+                         git branch: "${BRANCH_NAME}", 
+                             url: 'https://github.com/PavelK037/power-calculator.git'                    
+                        //git 'https://github.com/PavelK037/power-calculator.git'
+                        echo 'Finish Checking out code .'
+                    }
+                }
+                stage("build") {
+                    steps {
+                        echo 'building the application ...'
+                        sh "docker build -t ${IMAGE_NAME}:latest ."
+                        echo 'the application built.'
+                    }
+                }
             }
         }
         // stage("test") {
