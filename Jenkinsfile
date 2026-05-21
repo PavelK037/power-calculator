@@ -6,7 +6,8 @@ pipeline {
         //DOCKER_IMAGE = "your-registry/power-calc-service:${env.BUILD_ID}"
         REGISTRY_URL = "https://index.docker.io"
         REGISTRY_CREDS = "glob-docker-hub-creds"
-        IMAGE_NAME = "pavel37/power-calc-service"
+        //IMAGE_NAME = "pavelK/power-calc-service"
+        IMAGE_NAME = "power-calc-service"
         DOCKER_IMAGE = "${IMAGE_NAME}:${env.BUILD_ID}"
 
         //K8S_NAMESPACE = "production"
@@ -27,13 +28,21 @@ pipeline {
                 }
             }
         }
+        stage("build") {
+            steps {
+                echo 'building the application ...'
+                sh "docker build -t ${IMAGE_NAME}:latest ."
+                echo 'the application built.'
+            }
+        }
         stage('Run for main branch') {
             when {
                 expression {
                     env.BRANCH_NAME == 'main'
                 }
             }
-            stages {
+            //stages {
+                // In Jenkins we have build in behaviour - checkin SCM before run pipline job.
                 // stage('Checkout') {
                 //     steps {
                 //         echo "Checkout code for branch:${env.BRANCH_NAME} ..."
@@ -43,14 +52,14 @@ pipeline {
                 //         echo 'Finish Checking out code .'
                 //     }
                 // }
-                stage("build") {
-                    steps {
-                        echo 'building the application ...'
-                        sh "docker build -t ${IMAGE_NAME}:latest ."
-                        echo 'the application built.'
-                    }
-                }
-            }
+                // stage("build") {
+                //     steps {
+                //         echo 'building the application ...'
+                //         sh "docker build -t ${IMAGE_NAME}:latest ."
+                //         echo 'the application built.'
+                //     }
+                // }
+            //}
         }
         // stage("test") {
         //     when {
