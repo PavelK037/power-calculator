@@ -29,7 +29,9 @@ pipeline {
         }
         stage('Run for main branch') {
             when {
-                env.BRANCH_NAME == 'main'
+                expression {
+                    env.BRANCH_NAME == 'main'
+                }
             }
             stages {
                 // stage('Checkout') {
