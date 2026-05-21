@@ -22,25 +22,25 @@ pipeline {
                 script {
                     def dockerHome = tool 'JenkDocker'
                     env.PATH = "${dockerHome}/bin:${env.PATH}"
+                    echo "Environment env.BR_N:${env.BRANCH_NAME} BR_N:${BRANCH_NAME}"
+                    echo "env.TAG_NAME:${env.TAG_NAME} env.GIT_BRANCH:${env.GIT_BRANCH} env.JOB_NAME:${env.JOB_NAME}"
                 }
             }
         }
         stage('Run for main branch') {
             when {
-                expression {
-                    BRANCH_NAME == 'main'
-                }
+                env.BRANCH_NAME == 'main'
             }
             stages {
-                stage('Checkout') {
-                    steps {
-                        echo "Checkout code for branch:${env.BRANCH_NAME} ..."
-                         git branch: "${env.BRANCH_NAME}", 
-                             url: 'https://github.com/PavelK037/power-calculator.git'                    
-                        //git 'https://github.com/PavelK037/power-calculator.git'
-                        echo 'Finish Checking out code .'
-                    }
-                }
+                // stage('Checkout') {
+                //     steps {
+                //         echo "Checkout code for branch:${env.BRANCH_NAME} ..."
+                //          git branch: "${env.BRANCH_NAME}", 
+                //              url: 'https://github.com/PavelK037/power-calculator.git'                    
+                //         //git 'https://github.com/PavelK037/power-calculator.git'
+                //         echo 'Finish Checking out code .'
+                //     }
+                // }
                 stage("build") {
                     steps {
                         echo 'building the application ...'
