@@ -41,6 +41,9 @@ pipeline {
                     env.BRANCH_NAME == 'main'
                 }
             }
+            steps {
+                echo 'building the application on mian branch'
+            }
             //stages {
                 // In Jenkins we have build in behaviour - checkin SCM before run pipline job.
                 // stage('Checkout') {
