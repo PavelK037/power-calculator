@@ -13,9 +13,9 @@ pipeline {
         K8S_NAMESPACE = "powercalcrun"
     }
 
-    parameters {
-        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch to build')
-    }
+    // parameters {
+    //     string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch to build')
+    // }
     stages {
         stage('Initialize') {
             steps {
@@ -34,8 +34,8 @@ pipeline {
             stages {
                 stage('Checkout') {
                     steps {
-                        echo "Checkout code for branch:${BRANCH_NAME} ..."
-                         git branch: "${BRANCH_NAME}", 
+                        echo "Checkout code for branch:${env.BRANCH_NAME} ..."
+                         git branch: "${env.BRANCH_NAME}", 
                              url: 'https://github.com/PavelK037/power-calculator.git'                    
                         //git 'https://github.com/PavelK037/power-calculator.git'
                         echo 'Finish Checking out code .'
